@@ -1,6 +1,6 @@
 const express = require('express') //bring express in
 const colors = require('colors') 
-const cors = cors();
+var cors = require('cors')
 const dotenv = require('dotenv').config() //have environment variables 
 const {errorHandler} = require('./middleware/errorMiddleware')
 const port = process.env.PORT || 5000
