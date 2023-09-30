@@ -49,9 +49,25 @@ const getCartbyUserId = asyncHandler(async(req,res)=>{
 // @access Private 
 const setCart = asyncHandler(async (req, res) => {
     const newCart = new Cart(req.body);
+    const productID = req.body.products[0].productId
+    const qty = req.body.products[0].quantity
+    const pric = req.body.products[0].price
   try {
-    const savedCart = await newCart.save();
-    res.status(200).json(savedCart);
+    const order = await Cart.findOne({userId: req.body.userId })
+
+    if (order) {
+      order.products.push({ productId: productID, quantity: qty, price: pric });
+
+      // Update the order in the database
+      await Cart.updateOne({ userId: req.body.userId }, { $set: { products: order.products } });
+
+      res.status(200).json({ message: 'Product added successfully', order });
+    
+    }else{
+        const savedCart = await newCart.save();
+        res.status(200).json(savedCart);
+    }
+    
   } catch (err) {
     res.status(500).json({message:err.message});
   }
