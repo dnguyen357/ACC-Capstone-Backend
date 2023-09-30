@@ -12,7 +12,7 @@ router.get('/find/:userId',protect, getCartbyUserId)
 router.post('/',verifyUser, setCart)
 
 // router.route('/:id').patch(updateCart).delete(deleteCart) //one line instead of 2 (below)
-router.patch('/:id',protect, updateCart)
+router.patch('/:userId',protect, updateCart)
 router.delete('/:id',protect, deleteCart)
 
 

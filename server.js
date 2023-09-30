@@ -12,6 +12,7 @@ app.use((req, res, next) => {
   next();
 });
 connectDB()
+
 app.use(express.json())
 app.use(express.urlencoded({ extended:false}))
 app.use('/api/users', require('./routes/userRoutes'))

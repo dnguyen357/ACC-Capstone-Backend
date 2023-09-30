@@ -13,6 +13,7 @@ const getProducts = asyncHandler(async (req, res) => {
 
 const getProductbyId = asyncHandler(async(req,res)=>{
     let product
+    console.log(req.params.id)
     try{
         product = await Product.findById(req.params.id)
         if(product==null){
