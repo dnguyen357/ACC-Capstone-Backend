@@ -15,6 +15,8 @@ const protect = asyncHandler(async (req,res,next) => {
 
             //Get user from the token 
             req.user = await User.findById(decoded.id).select('-password')
+            console.log(req.user.id)
+            console.log(req.params.userId)
             if (req.user.id == req.params.userId) {
                 next();
               } else {

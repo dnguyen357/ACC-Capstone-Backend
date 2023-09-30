@@ -65,17 +65,20 @@ const updateCart = asyncHandler(async (req, res) => {
 
     const productID = req.body.products[0].productId
     const qty = req.body.products[0].quantity
+    const pric = req.body.products[0].price
+    
     try{
         
-        if(!req.params.id){
+        if(!req.params.userId){
             res.status(400)
             throw new Error('Cart not found') 
         }else{
             const updatedCart = await Cart.updateOne(
                 {'products.productId': productID},
-                {'products.$.quantity': qty},
+                {'products.$.quantity': qty ,'products.$.price': pric},      
                 {new:true}
-            )             
+            )   
+                     
             res.status(200).json(updatedCart)    
                 
         }
