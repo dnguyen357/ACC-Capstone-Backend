@@ -52,16 +52,28 @@ const setCart = asyncHandler(async (req, res) => {
     const productID = req.body.products[0].productId
     const qty = req.body.products[0].quantity
     const pric = req.body.products[0].price
+    const cart = await Cart.find({})
+    
   try {
+
     const order = await Cart.findOne({userId: req.body.userId })
-
+    
+    // check if the user have a cart 
     if (order) {
-      order.products.push({ productId: productID, quantity: qty, price: pric });
-
-      // Update the order in the database
-      await Cart.updateOne({ userId: req.body.userId }, { $set: { products: order.products } });
-
-      res.status(200).json({ message: 'Product added successfully', order });
+        const orderList = cart[0].products
+        const product = orderList.filter((item)=> item.productId == productID)
+        // check if the product is in the cart
+        if(product.length>0){
+            const updatedCart = await Cart.updateOne(
+                {'products.productId': productID},
+                {'products.$.quantity': qty+1 ,'products.$.price': pric},      
+            )
+            res.status(200).json(updatedCart)   
+        }else{
+            order.products.push({ productId: productID, quantity: qty, price: pric });
+            await Cart.updateOne({ userId: req.body.userId }, { $set: { products: order.products } });
+            res.status(200).json({ message: 'Product added successfully', order });
+        }
     
     }else{
         const savedCart = await newCart.save();
