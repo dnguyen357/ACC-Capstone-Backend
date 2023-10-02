@@ -37,9 +37,10 @@ const setProduct = asyncHandler(async (req, res) => {
         description: req.body.description,
         category:req.body.category,
         image:req.body.image,
+        quantity:req.body.quantity,
         rating:{
-            rate: req.body.rating.rate,
-            count: req.body.rating.count
+            rate: req.body.rating[0].rate,
+            count: req.body.rating[0].count
         }
     })
     try{

@@ -23,6 +23,10 @@ const productSchema = mongoose.Schema(
             type: String,
             required: [true,"Please enter a product image"]
         },
+        quantity:{
+            type: Number,
+            default: 1
+        },
         rating:[
             {
                 rate:{
