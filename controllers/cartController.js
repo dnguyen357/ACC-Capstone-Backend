@@ -52,6 +52,7 @@ const setCart = asyncHandler(async (req, res) => {
     const productID = req.body.products[0].productId
     const qty = req.body.products[0].quantity
     const pric = req.body.products[0].price
+    const title = req.body.products[0].title
     const cart = await Cart.find({})
     
   try {
@@ -66,11 +67,11 @@ const setCart = asyncHandler(async (req, res) => {
         if(product.length>0){
             const updatedCart = await Cart.updateOne(
                 {'products.productId': productID},
-                {'products.$.quantity': qty+1 ,'products.$.price': pric},      
+                {'products.$.quantity': qty+1 ,'products.$.price': pric, 'products.$.title': title},      
             )
             res.status(200).json(updatedCart)   
         }else{
-            order.products.push({ productId: productID, quantity: qty, price: pric });
+            order.products.push({ productId: productID, quantity: qty, price: pric, title: title });
             await Cart.updateOne({ userId: req.body.userId }, { $set: { products: order.products } });
             res.status(200).json({ message: 'Product added successfully', order });
         }
@@ -103,7 +104,7 @@ const updateCart = asyncHandler(async (req, res) => {
         }else{
             const updatedCart = await Cart.updateOne(
                 {'products.productId': productID},
-                {'products.$.quantity': qty ,'products.$.price': pric},      
+                {'products.$.quantity': qty ,'products.$.price': pric, 'products.$.title': title},      
                 {new:true}
             )   
                      
