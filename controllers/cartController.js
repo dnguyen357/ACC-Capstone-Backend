@@ -63,11 +63,12 @@ const setCart = asyncHandler(async (req, res) => {
     if (order) {
         const orderList = cart[0].products
         const product = orderList.filter((item)=> item.productId == productID)
+        console.log(product)
         // check if the product is in the cart
         if(product.length>0){
             const updatedCart = await Cart.updateOne(
                 {'products.productId': productID},
-                {'products.$.quantity': qty+1 ,'products.$.price': pric, 'products.$.title': title},      
+                {'products.$.quantity': product[0].quantity + 1 ,'products.$.price': pric, 'products.$.title': title},      
             )
             res.status(200).json(updatedCart)   
         }else{
@@ -93,19 +94,20 @@ const setCart = asyncHandler(async (req, res) => {
 const updateCart = asyncHandler(async (req, res) => {
 
     const productID = req.body.products[0].productId
-    const qty = req.body.products[0].quantity
     const pric = req.body.products[0].price
     const title = req.body.products[0].title
-    
+    const cart = await Cart.find({})
     try{
-        
+        const orderList = cart[0].products
+        const product = orderList.filter((item)=> item.productId == productID)
+
         if(!req.params.userId){
             res.status(400)
             throw new Error('Cart not found') 
         }else{
             const updatedCart = await Cart.updateOne(
                 {'products.productId': productID},
-                {'products.$.quantity': qty ,'products.$.price': pric, 'products.$.title': title},      
+                {'products.$.quantity': product[0].quantity + 1 ,'products.$.price': pric, 'products.$.title': title},      
                 {new:true}
             )   
                      
