@@ -69,7 +69,7 @@ const setCart = asyncHandler(async (req, res) => {
         if(product.length>0){
             const updatedCart = await Cart.updateOne(
                 {'products.productId': productID},
-                {'products.$.quantity': product[0].quantity + 1 ,'products.$.price': pric, 'products.$.title': title,'products.$.image': image},      
+                {'products.$.quantity': qty  ,'products.$.price': pric, 'products.$.title': title,'products.$.image': image},      
             )
             res.status(200).json(updatedCart)   
         }else{
@@ -98,6 +98,7 @@ const updateCart = asyncHandler(async (req, res) => {
     const pric = req.body.products[0].price
     const title = req.body.products[0].title
     const image = req.body.products[0].image
+    const quantity = req.body.products[0].quantity
     const cart = await Cart.find({})
     try{
         const orderList = cart[0].products
@@ -109,7 +110,7 @@ const updateCart = asyncHandler(async (req, res) => {
         }else{
             const updatedCart = await Cart.updateOne(
                 {'products.productId': productID},
-                {'products.$.quantity': product[0].quantity + 1 ,'products.$.price': pric, 'products.$.title': title,'products.$.image': image},      
+                {'products.$.quantity': quantity ,'products.$.price': pric, 'products.$.title': title,'products.$.image': image},      
             )
                      
             res.status(200).json(updatedCart)    
