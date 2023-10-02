@@ -95,6 +95,7 @@ const updateCart = asyncHandler(async (req, res) => {
     const productID = req.body.products[0].productId
     const qty = req.body.products[0].quantity
     const pric = req.body.products[0].price
+    const title = req.body.products[0].title
     
     try{
         
