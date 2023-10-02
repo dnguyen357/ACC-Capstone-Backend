@@ -100,6 +100,7 @@ const updateCart = asyncHandler(async (req, res) => {
     const image = req.body.products[0].image
     const quantity = req.body.products[0].quantity
     const cart = await Cart.find({})
+
     try{
         const orderList = cart[0].products
         const product = orderList.filter((item)=> item.productId == productID)
@@ -111,6 +112,7 @@ const updateCart = asyncHandler(async (req, res) => {
             const updatedCart = await Cart.updateOne(
                 {'products.productId': productID},
                 {'products.$.quantity': quantity ,'products.$.price': pric, 'products.$.title': title,'products.$.image': image},      
+
             )
                      
             res.status(200).json(updatedCart)    
