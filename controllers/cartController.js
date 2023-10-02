@@ -97,6 +97,7 @@ const updateCart = asyncHandler(async (req, res) => {
     const pric = req.body.products[0].price
     const title = req.body.products[0].title
     const cart = await Cart.find({})
+
     try{
         const orderList = cart[0].products
         const product = orderList.filter((item)=> item.productId == productID)
