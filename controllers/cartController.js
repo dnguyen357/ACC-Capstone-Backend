@@ -64,7 +64,6 @@ const setCart = asyncHandler(async (req, res) => {
     if (order) {
         const orderList = cart[0].products
         const product = orderList.filter((item)=> item.productId == productID)
-        console.log(product)
         // check if the product is in the cart
         if(product.length>0){
             const updatedCart = await Cart.updateOne(
@@ -106,15 +105,18 @@ const updateCart = asyncHandler(async (req, res) => {
 
         if(!req.params.userId){
             res.status(400)
-            throw new Error('Cart not found') 
+            throw new Error('User not found') 
         }else{
-            const updatedCart = await Cart.updateOne(
-                {'products.productId': productID},
-                {'products.$.quantity': quantity ,'products.$.price': pric, 'products.$.title': title,'products.$.image': image},      
-            )
-                     
-            res.status(200).json(updatedCart)    
-                
+            if(product.length>0){
+                const updatedCart = await Cart.updateOne(
+                    {'products.productId': productID},
+                    {'products.$.quantity': quantity  ,'products.$.price': pric, 'products.$.title': title,'products.$.image': image},      
+                )
+                res.status(200).json(updatedCart)      
+            }else{
+                res.status(400)
+                throw new Error('Item not found') 
+            }   
         }
     }catch(err){
         res.status(500).json({message:err.message});
