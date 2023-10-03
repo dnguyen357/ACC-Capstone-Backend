@@ -68,7 +68,7 @@ const setCart = asyncHandler(async (req, res) => {
         if(product.length>0){
             const updatedCart = await Cart.updateOne(
                 {'products.productId': productID},
-                {'products.$.quantity': qty  ,'products.$.price': pric, 'products.$.title': title,'products.$.image': image},      
+                {'products.$.quantity': product[0].quantity + 1  ,'products.$.price': pric, 'products.$.title': title,'products.$.image': image},      
             )
             res.status(200).json(updatedCart)   
         }else{
