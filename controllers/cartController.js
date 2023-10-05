@@ -100,7 +100,6 @@ const updateCart = asyncHandler(async (req, res) => {
     const image = req.body.products[0].image
     const quantity = req.body.products[0].quantity
     const cart = await Cart.find({})
-    console.log(cart[0])
     try{
         const orderList = cart[0].products
         const product = orderList.filter((item)=> item.productId == productID)
