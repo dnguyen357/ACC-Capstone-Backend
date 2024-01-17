@@ -13,7 +13,7 @@ router.post('/',verifyUser, setCart)
 
 // router.route('/:id').patch(updateCart).delete(deleteCart) //one line instead of 2 (below)
 router.patch('/:userId',protect, updateCart)
-router.delete('/:id',protect, deleteCart)
+router.delete('/:userid',protect,deleteCart)
 
 
 module.exports = router
