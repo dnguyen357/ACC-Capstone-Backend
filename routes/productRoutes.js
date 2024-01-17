@@ -9,8 +9,7 @@ router.get('/:id', getProductbyId)
 //router.post('/', setGoal)
 
 router.route('/:id').patch(updateProduct).delete(deleteProduct) //one line instead of 2 (below)
-//router.put('/:id', updateGoal)
-//router.delete('/:id', deleteGoal)
+
 
 
 module.exports = router
