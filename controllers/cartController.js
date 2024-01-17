@@ -141,16 +141,14 @@ const updateCart = asyncHandler(async (req, res) => {
 // @route DELETE / api/products 
 // @access Private 
 const deleteCart = asyncHandler(async (req, res) => {
-    const cart = await Cart.findById(req.params.id)
+    const cart = await Cart.find({userId: req.params.userId})
     if(!cart) {
         res.status(400)
-        throw new Error('Product not found')
+        throw new Error('Cart not found')
     }
 
     //deleteproduct function
-    const deletedCart = await Cart.findByIdAndDelete(req.params.id, req.body,{
-        new : true,
-    })
+    const deletedCart = await Cart.findOneAndDelete({userId: req.params.userId}, req.body)
     res.status(200).json(deletedCart)
 })
 
